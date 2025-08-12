@@ -1,5 +1,6 @@
 import { sql } from "@/lib/db";
 import Image from "next/image";
+import BookForm from "./request";
 
 interface Props {
   params: { id: string };
@@ -57,6 +58,7 @@ export default async function TalentProfilePage({ params }: Props) {
                 <div className="text-sm mt-2">
                   {s.price} {s.currency} {s.duration_minutes ? `· ${s.duration_minutes} min` : ""}
                 </div>
+                <BookForm serviceId={s.id} />
               </li>
             ))}
           </ul>
