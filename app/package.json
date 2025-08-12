@@ -6,11 +6,12 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "seed": "node --env-file=.env.local ./scripts/seed.mjs"
   },
   "dependencies": {
-    "@clerk/nextjs": "6.30.1",
-    "@neondatabase/serverless": "1.0.1",
+    "@clerk/nextjs": "^6.10.0",
+    "@neondatabase/serverless": "^0.10.5",
     "next": "15.4.6",
     "react": "19.1.0",
     "react-dom": "19.1.0"
