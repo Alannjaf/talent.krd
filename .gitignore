@@ -1,0 +1,22 @@
+# Dependencies
+node_modules/
+
+# Next.js
+.next/
+out/
+
+# Build artifacts
+*.log
+*.tsbuildinfo
+
+# Env files
+.env
+.env.*
+!.env.example
+
+# IDE
+.vscode/
+.DS_Store
+
+# Netlify
+.netlify/
