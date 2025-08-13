@@ -35,10 +35,16 @@ export default function RootLayout({
           <StackTheme>
             <header className="w-full border-b border-black/10 dark:border-white/10">
               <nav className="mx-auto max-w-5xl px-4 py-3 flex items-center justify-between">
-                <Link href="/" className="font-semibold">
+                <Link href="/" className="font-semibold text-lg">
                   Talent.krd
                 </Link>
-                <div className="flex items-center gap-4 text-sm">
+                <div className="flex items-center gap-6 text-sm">
+                  <Link href="/talents" className="hover:text-blue-600 transition-colors">
+                    Browse Talents
+                  </Link>
+                  <Link href="/dashboard/profile" className="hover:text-blue-600 transition-colors">
+                    Dashboard
+                  </Link>
                   <UserButton />
                 </div>
               </nav>

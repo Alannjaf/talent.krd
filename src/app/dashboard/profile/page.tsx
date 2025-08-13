@@ -76,8 +76,45 @@ export default function ProfilePage() {
   if (loading) return <div className="mx-auto max-w-2xl p-6">Loading…</div>;
 
   return (
-    <div className="mx-auto max-w-2xl p-6">
-      <h1 className="text-xl font-semibold mb-4">Edit profile</h1>
+    <div className="mx-auto max-w-4xl p-6">
+      <div className="flex justify-between items-center mb-6">
+        <h1 className="text-2xl font-bold">Dashboard</h1>
+      </div>
+      
+      <div className="grid md:grid-cols-3 gap-6 mb-8">
+        <a
+          href="/dashboard/profile"
+          className="p-6 border rounded-lg hover:shadow-lg transition-shadow bg-blue-50 dark:bg-blue-900/20 border-blue-200 dark:border-blue-800"
+        >
+          <h3 className="font-semibold text-lg mb-2">Profile</h3>
+          <p className="text-sm text-gray-600 dark:text-gray-400">
+            Edit your basic profile information
+          </p>
+        </a>
+        
+        <a
+          href="/dashboard/portfolio"
+          className="p-6 border rounded-lg hover:shadow-lg transition-shadow"
+        >
+          <h3 className="font-semibold text-lg mb-2">Portfolio</h3>
+          <p className="text-sm text-gray-600 dark:text-gray-400">
+            Manage your work samples and projects
+          </p>
+        </a>
+        
+        <a
+          href="/dashboard/services"
+          className="p-6 border rounded-lg hover:shadow-lg transition-shadow"
+        >
+          <h3 className="font-semibold text-lg mb-2">Services</h3>
+          <p className="text-sm text-gray-600 dark:text-gray-400">
+            Create and manage your service offerings
+          </p>
+        </a>
+      </div>
+
+      <div className="bg-white dark:bg-gray-800 rounded-lg border p-6">
+        <h2 className="text-xl font-semibold mb-4">Edit Profile</h2>
       {error && <div className="text-red-600 text-sm mb-3">{error}</div>}
       <form onSubmit={onSubmit} className="space-y-4">
         <div>
@@ -129,6 +166,7 @@ export default function ProfilePage() {
           {saving ? "Saving…" : "Save"}
         </button>
       </form>
+      </div>
     </div>
   );
 }
