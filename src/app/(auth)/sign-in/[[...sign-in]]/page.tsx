@@ -1,20 +1,6 @@
-import { SignIn } from "@clerk/nextjs";
+import { SignIn } from "@stackframe/stack";
 
-export default function Page() {
-  const enabled = Boolean(
-    process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY &&
-      process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY !== "pk_test_dummy"
-  );
-  if (!enabled) {
-    return (
-      <div className="mx-auto max-w-md py-10 px-4">
-        <p className="text-sm">
-          Authentication is not configured. Please add Clerk keys to{" "}
-          <code>.env.local</code>.
-        </p>
-      </div>
-    );
-  }
+export default function SignInPage() {
   return (
     <div className="mx-auto max-w-md py-10 px-4">
       <SignIn />

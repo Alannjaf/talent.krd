@@ -1,25 +1,9 @@
 import Image from "next/image";
-import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
 
 export default function Home() {
   return (
     <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
       <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <div className="flex items-center gap-4">
-          {process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY &&
-          process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY !== "pk_test_dummy" ? (
-            <>
-              <SignedIn>
-                <UserButton afterSignOutUrl="/" />
-              </SignedIn>
-              <SignedOut>
-                <span className="text-sm text-gray-500">
-                  You are signed out
-                </span>
-              </SignedOut>
-            </>
-          ) : null}
-        </div>
         <Image
           className="dark:invert"
           src="/next.svg"

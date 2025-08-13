@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { sql } from "@/lib/db";
-import { auth } from "@clerk/nextjs/server";
+import { stackServerApp } from "../../../stack";
 
 export async function POST(req: Request) {
   try {
@@ -16,31 +16,31 @@ export async function POST(req: Request) {
     // Resolve customer id
     let customerId: string | null = null;
     try {
-      const { userId } = await auth();
-      if (userId) {
+      const user = await stackServerApp.getUser();
+      if (user) {
         const rows =
-          (await sql`SELECT id FROM users WHERE clerk_id = ${userId}`) as Array<{
+          (await sql`SELECT id FROM users WHERE stack_user_id = ${user.id}`) as Array<{
             id: string;
           }>;
         if (rows.length) customerId = rows[0].id;
         else {
           const inserted =
-            (await sql`INSERT INTO users (clerk_id, role) VALUES (${userId}, 'customer') RETURNING id`) as Array<{
+            (await sql`INSERT INTO users (stack_user_id, role) VALUES (${user.id}, 'customer') RETURNING id`) as Array<{
               id: string;
             }>;
           customerId = inserted[0].id;
         }
       }
     } catch {
-      // ignore Clerk when not configured
+      // ignore Stack Auth when not configured
     }
 
     if (!customerId) {
       // fallback seed customer for testing
       const upsert = (await sql`
-        INSERT INTO users (clerk_id, role, display_name)
+        INSERT INTO users (stack_user_id, role, display_name)
         VALUES ('seed-customer-1', 'customer', 'Sample Customer')
-        ON CONFLICT (clerk_id) DO UPDATE SET display_name = EXCLUDED.display_name
+        ON CONFLICT (stack_user_id) DO UPDATE SET display_name = EXCLUDED.display_name
         RETURNING id
       `) as Array<{ id: string }>;
       customerId = upsert[0].id;

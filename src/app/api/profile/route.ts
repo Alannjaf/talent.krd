@@ -1,19 +1,32 @@
 import { NextResponse } from "next/server";
-import { auth } from "@clerk/nextjs/server";
+import { stackServerApp } from "../../../stack";
 import { sql } from "@/lib/db";
-import { getOrCreateUserByClerkId, getOrCreateTalentProfile } from "@/lib/users";
+import {
+  getOrCreateUserByStackId,
+  getOrCreateTalentProfile,
+} from "@/lib/users";
 
 export async function GET() {
   try {
-    const { userId } = await auth();
-    if (!userId) return NextResponse.json({ ok: false, error: "Unauthorized" }, { status: 401 });
-    const { id: appUserId } = await getOrCreateUserByClerkId(userId, "talent");
+    const user = await stackServerApp.getUser();
+    if (!user)
+      return NextResponse.json(
+        { ok: false, error: "Unauthorized" },
+        { status: 401 }
+      );
+    const { id: appUserId } = await getOrCreateUserByStackId(user.id, "talent");
     const { id: profileId } = await getOrCreateTalentProfile(appUserId);
     const rows = (await sql`
       SELECT u.display_name, p.headline, p.bio, p.location, p.tags
       FROM talent_profiles p JOIN users u ON u.id = p.user_id
       WHERE p.id = ${profileId}
-    `) as Array<{ display_name: string | null; headline: string | null; bio: string | null; location: string | null; tags: string[] | null }>;
+    `) as Array<{
+      display_name: string | null;
+      headline: string | null;
+      bio: string | null;
+      location: string | null;
+      tags: string[] | null;
+    }>;
     return NextResponse.json({ ok: true, profile: rows[0] || null });
   } catch (e: unknown) {
     const message = e instanceof Error ? e.message : String(e);
@@ -25,9 +38,13 @@ export async function PUT(req: Request) {
   try {
     const body = await req.json();
     const { displayName, headline, bio, location, tags } = body || {};
-    const { userId } = await auth();
-    if (!userId) return NextResponse.json({ ok: false, error: "Unauthorized" }, { status: 401 });
-    const { id: appUserId } = await getOrCreateUserByClerkId(userId, "talent");
+    const user = await stackServerApp.getUser();
+    if (!user)
+      return NextResponse.json(
+        { ok: false, error: "Unauthorized" },
+        { status: 401 }
+      );
+    const { id: appUserId } = await getOrCreateUserByStackId(user.id, "talent");
     const { id: profileId } = await getOrCreateTalentProfile(appUserId);
 
     if (typeof displayName === "string") {
@@ -47,5 +64,3 @@ export async function PUT(req: Request) {
     return NextResponse.json({ ok: false, error: message }, { status: 500 });
   }
 }
-
-

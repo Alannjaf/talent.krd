@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import { ClerkProvider, SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
+import { StackProvider, StackTheme, UserButton } from "@stackframe/stack";
+import { stackServerApp } from "../stack";
 import React from "react";
 import Link from "next/link";
 import { Geist, Geist_Mono } from "next/font/google";
@@ -25,48 +26,27 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const publishableKey = process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY;
-  const clerkEnabled = Boolean(
-    publishableKey && publishableKey !== "pk_test_dummy"
-  );
-
-  const MaybeClerk: React.FC<{ children: React.ReactNode }> = ({ children }) =>
-    clerkEnabled ? <ClerkProvider>{children}</ClerkProvider> : <>{children}</>;
-
   return (
-    <MaybeClerk>
-      <html lang="en">
-        <body
-          className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-        >
-          <header className="w-full border-b border-black/10 dark:border-white/10">
-            <nav className="mx-auto max-w-5xl px-4 py-3 flex items-center justify-between">
-              <Link href="/" className="font-semibold">
-                Talent.krd
-              </Link>
-              <div className="flex items-center gap-4 text-sm">
-                {clerkEnabled ? (
-                  <>
-                    <SignedIn>
-                      <UserButton afterSignOutUrl="/" />
-                    </SignedIn>
-                    <SignedOut>
-                      <Link href="/sign-in">Sign in</Link>
-                      <Link href="/sign-up">Sign up</Link>
-                    </SignedOut>
-                  </>
-                ) : (
-                  <>
-                    <Link href="/sign-in">Sign in</Link>
-                    <Link href="/sign-up">Sign up</Link>
-                  </>
-                )}
-              </div>
-            </nav>
-          </header>
-          <main>{children}</main>
-        </body>
-      </html>
-    </MaybeClerk>
+    <html lang="en">
+      <body
+        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+      >
+        <StackProvider app={stackServerApp}>
+          <StackTheme>
+            <header className="w-full border-b border-black/10 dark:border-white/10">
+              <nav className="mx-auto max-w-5xl px-4 py-3 flex items-center justify-between">
+                <Link href="/" className="font-semibold">
+                  Talent.krd
+                </Link>
+                <div className="flex items-center gap-4 text-sm">
+                  <UserButton />
+                </div>
+              </nav>
+            </header>
+            <main>{children}</main>
+          </StackTheme>
+        </StackProvider>
+      </body>
+    </html>
   );
 }
