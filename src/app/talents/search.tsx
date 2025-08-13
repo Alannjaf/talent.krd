@@ -19,14 +19,14 @@ export default function TalentSearch({
   tags,
 }: TalentSearchProps) {
   const router = useRouter();
-  
+
   const [search, setSearch] = useState(initialSearch);
   const [location, setLocation] = useState(initialLocation);
   const [tag, setTag] = useState(initialTag);
 
   const updateURL = () => {
     const params = new URLSearchParams();
-    
+
     if (search.trim()) params.set("search", search.trim());
     if (location) params.set("location", location);
     if (tag) params.set("tag", tag);
@@ -50,7 +50,7 @@ export default function TalentSearch({
   const hasActiveFilters = search || location || tag;
 
   return (
-    <div className="bg-gray-50 dark:bg-gray-900 rounded-lg p-6">
+    <div className="bg-gray-900 rounded-lg p-6">
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="grid md:grid-cols-3 gap-4">
           {/* Search */}
@@ -61,7 +61,7 @@ export default function TalentSearch({
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Name, skills, bio..."
-              className="w-full border rounded-lg px-3 py-2 bg-white dark:bg-gray-800"
+              className="w-full border rounded-lg px-3 py-2 bg-gray-800"
             />
           </div>
 
@@ -71,7 +71,7 @@ export default function TalentSearch({
             <select
               value={location}
               onChange={(e) => setLocation(e.target.value)}
-              className="w-full border rounded-lg px-3 py-2 bg-white dark:bg-gray-800"
+              className="w-full border rounded-lg px-3 py-2 bg-gray-800"
             >
               <option value="">All locations</option>
               {locations.map((loc) => (
@@ -88,7 +88,7 @@ export default function TalentSearch({
             <select
               value={tag}
               onChange={(e) => setTag(e.target.value)}
-              className="w-full border rounded-lg px-3 py-2 bg-white dark:bg-gray-800"
+              className="w-full border rounded-lg px-3 py-2 bg-gray-800"
             >
               <option value="">All skills</option>
               {tags.map((t) => (
@@ -108,12 +108,12 @@ export default function TalentSearch({
           >
             Search
           </button>
-          
+
           {hasActiveFilters && (
             <button
               type="button"
               onClick={clearFilters}
-              className="border border-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 px-6 py-2 rounded-lg font-medium transition"
+              className="border border-gray-300 hover:bg-gray-800 px-6 py-2 rounded-lg font-medium transition"
             >
               Clear filters
             </button>
@@ -124,17 +124,17 @@ export default function TalentSearch({
         {hasActiveFilters && (
           <div className="flex flex-wrap gap-2 pt-2">
             {search && (
-              <span className="bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 px-3 py-1 rounded-full text-sm">
+              <span className="bg-blue-900 text-blue-200 px-3 py-1 rounded-full text-sm">
                 Search: &quot;{search}&quot;
               </span>
             )}
             {location && (
-              <span className="bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 px-3 py-1 rounded-full text-sm">
+              <span className="bg-green-900 text-green-200 px-3 py-1 rounded-full text-sm">
                 Location: {location}
               </span>
             )}
             {tag && (
-              <span className="bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200 px-3 py-1 rounded-full text-sm">
+              <span className="bg-purple-900 text-purple-200 px-3 py-1 rounded-full text-sm">
                 Skill: {tag}
               </span>
             )}

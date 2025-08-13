@@ -5,6 +5,7 @@ import React from "react";
 import Link from "next/link";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import MouseTrail from "./components/MouseTrail";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -33,17 +34,29 @@ export default function RootLayout({
       >
         <StackProvider app={stackServerApp}>
           <StackTheme>
-            <header className="w-full border-b border-black/10 dark:border-white/10">
-              <nav className="mx-auto max-w-5xl px-4 py-3 flex items-center justify-between">
-                <Link href="/" className="font-semibold text-lg">
+            <MouseTrail />
+            <header className="w-full backdrop-blur-md bg-gray-900/80 border-b border-gray-700/50 sticky top-0 z-50">
+              <nav className="mx-auto max-w-6xl px-4 py-4 flex items-center justify-between">
+                <Link
+                  href="/"
+                  className="font-bold text-xl gradient-text hover:scale-105 transition-transform"
+                >
                   Talent.krd
                 </Link>
-                <div className="flex items-center gap-6 text-sm">
-                  <Link href="/talents" className="hover:text-blue-600 transition-colors">
+                <div className="flex items-center gap-8 text-sm">
+                  <Link
+                    href="/talents"
+                    className="hover:text-indigo-400 transition-colors font-medium relative group"
+                  >
                     Browse Talents
+                    <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-indigo-600 to-purple-600 group-hover:w-full transition-all duration-300"></span>
                   </Link>
-                  <Link href="/dashboard/profile" className="hover:text-blue-600 transition-colors">
+                  <Link
+                    href="/dashboard/profile"
+                    className="hover:text-indigo-400 transition-colors font-medium relative group"
+                  >
                     Dashboard
+                    <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-indigo-600 to-purple-600 group-hover:w-full transition-all duration-300"></span>
                   </Link>
                   <UserButton />
                 </div>

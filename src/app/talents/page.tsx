@@ -101,9 +101,12 @@ export default async function TalentsPage({
       WHERE p.location IS NOT NULL OR p.tags IS NOT NULL
     `) as Array<{ location: string | null; tag: string | null }>;
 
-    allLocations = [...new Set(filtersData.map(d => d.location).filter(Boolean))] as string[];
-    allTags = [...new Set(filtersData.map(d => d.tag).filter(Boolean))] as string[];
-
+    allLocations = [
+      ...new Set(filtersData.map((d) => d.location).filter(Boolean)),
+    ] as string[];
+    allTags = [
+      ...new Set(filtersData.map((d) => d.tag).filter(Boolean)),
+    ] as string[];
   } catch (e: unknown) {
     const message = e instanceof Error ? e.message : String(e);
     return (
@@ -118,11 +121,11 @@ export default async function TalentsPage({
     <div className="mx-auto max-w-6xl p-6">
       <div className="mb-8">
         <h1 className="text-3xl font-bold mb-4">Discover Talents</h1>
-        <p className="text-gray-600 dark:text-gray-400 mb-6">
+        <p className="text-gray-400 mb-6">
           Find skilled professionals across Kurdistan for your next project
         </p>
-        
-        <TalentSearch 
+
+        <TalentSearch
           initialSearch={search}
           initialLocation={location}
           initialTag={tag}
@@ -134,7 +137,7 @@ export default async function TalentsPage({
       {/* Results */}
       <div className="mb-4">
         <p className="text-sm text-gray-500">
-          {talents.length} talent{talents.length !== 1 ? 's' : ''} found
+          {talents.length} talent{talents.length !== 1 ? "s" : ""} found
           {search && ` for "${search}"`}
           {location && ` in "${location}"`}
           {tag && ` with tag "${tag}"`}
@@ -143,8 +146,12 @@ export default async function TalentsPage({
 
       {talents.length === 0 ? (
         <div className="text-center py-12">
-          <p className="text-gray-500 mb-4">No talents found matching your criteria.</p>
-          <p className="text-sm text-gray-400">Try adjusting your search filters.</p>
+          <p className="text-gray-500 mb-4">
+            No talents found matching your criteria.
+          </p>
+          <p className="text-sm text-gray-400">
+            Try adjusting your search filters.
+          </p>
         </div>
       ) : (
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -157,7 +164,7 @@ export default async function TalentsPage({
               <h3 className="font-semibold text-lg mb-2">
                 {t.display_name || "Unnamed Talent"}
               </h3>
-              <p className="text-gray-600 dark:text-gray-400 mb-3">
+              <p className="text-gray-400 mb-3">
                 {t.headline || "Professional"}
               </p>
               {t.location && (
@@ -168,13 +175,15 @@ export default async function TalentsPage({
                   {t.tags.slice(0, 3).map((tag, index) => (
                     <span
                       key={index}
-                      className="bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 px-2 py-1 rounded-full text-xs"
+                      className="bg-blue-900 text-blue-200 px-2 py-1 rounded-full text-xs"
                     >
                       {tag}
                     </span>
                   ))}
                   {t.tags.length > 3 && (
-                    <span className="text-gray-500 text-xs">+{t.tags.length - 3} more</span>
+                    <span className="text-gray-500 text-xs">
+                      +{t.tags.length - 3} more
+                    </span>
                   )}
                 </div>
               )}

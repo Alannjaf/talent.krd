@@ -39,18 +39,19 @@ export default function PortfolioPage() {
 
   const handleDelete = async (id: string) => {
     if (!confirm("Are you sure you want to delete this item?")) return;
-    
+
     try {
       const res = await fetch(`/api/portfolio/${id}`, { method: "DELETE" });
       const data = await res.json();
       if (!data.ok) throw new Error(data.error || "Failed to delete");
-      setItems(items.filter(item => item.id !== id));
+      setItems(items.filter((item) => item.id !== id));
     } catch (e: unknown) {
       setError(e instanceof Error ? e.message : String(e));
     }
   };
 
-  if (loading) return <div className="mx-auto max-w-4xl p-6">Loading portfolio...</div>;
+  if (loading)
+    return <div className="mx-auto max-w-4xl p-6">Loading portfolio...</div>;
 
   return (
     <div className="mx-auto max-w-4xl p-6">
@@ -85,7 +86,7 @@ export default function PortfolioPage() {
           {items.map((item) => (
             <div key={item.id} className="border rounded-lg overflow-hidden">
               {item.media_url && (
-                <div className="aspect-video bg-gray-100 dark:bg-gray-800">
+                <div className="aspect-video bg-gray-800">
                   {item.media_url.match(/\.(jpg|jpeg|png|gif|webp)$/i) ? (
                     // eslint-disable-next-line @next/next/no-img-element
                     <img
@@ -95,12 +96,14 @@ export default function PortfolioPage() {
                     />
                   ) : (
                     <div className="w-full h-full flex items-center justify-center">
-                      <span className="text-gray-400">📄 {item.media_url.split('/').pop()}</span>
+                      <span className="text-gray-400">
+                        📄 {item.media_url.split("/").pop()}
+                      </span>
                     </div>
                   )}
                 </div>
               )}
-              
+
               <div className="p-4">
                 <div className="flex justify-between items-start mb-2">
                   <h3 className="font-medium">{item.title || "Untitled"}</h3>
@@ -114,13 +117,13 @@ export default function PortfolioPage() {
                     {item.visibility}
                   </span>
                 </div>
-                
+
                 {item.description && (
-                  <p className="text-sm text-gray-600 dark:text-gray-400 mb-3">
+                  <p className="text-sm text-gray-400 mb-3">
                     {item.description}
                   </p>
                 )}
-                
+
                 <div className="flex gap-2 text-sm">
                   <button
                     onClick={() => {
@@ -188,16 +191,16 @@ function PortfolioForm({
     try {
       const url = item ? `/api/portfolio/${item.id}` : "/api/portfolio";
       const method = item ? "PUT" : "POST";
-      
+
       const res = await fetch(url, {
         method,
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(form),
       });
-      
+
       const data = await res.json();
       if (!data.ok) throw new Error(data.error || "Failed to save");
-      
+
       onSuccess();
     } catch (e: unknown) {
       setError(e instanceof Error ? e.message : String(e));
@@ -208,7 +211,7 @@ function PortfolioForm({
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 w-full max-w-md">
+      <div className="bg-gray-800 rounded-lg p-6 w-full max-w-md">
         <h2 className="text-lg font-bold mb-4">
           {item ? "Edit Portfolio Item" : "Add Portfolio Item"}
         </h2>
@@ -221,7 +224,9 @@ function PortfolioForm({
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block text-sm font-medium mb-1">Media URL *</label>
+            <label className="block text-sm font-medium mb-1">
+              Media URL *
+            </label>
             <input
               type="url"
               required
@@ -247,10 +252,14 @@ function PortfolioForm({
           </div>
 
           <div>
-            <label className="block text-sm font-medium mb-1">Description</label>
+            <label className="block text-sm font-medium mb-1">
+              Description
+            </label>
             <textarea
               value={form.description}
-              onChange={(e) => setForm({ ...form, description: e.target.value })}
+              onChange={(e) =>
+                setForm({ ...form, description: e.target.value })
+              }
               className="w-full border rounded px-3 py-2 bg-transparent"
               rows={3}
               placeholder="Describe this work..."
@@ -280,7 +289,7 @@ function PortfolioForm({
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 border rounded hover:bg-gray-50 dark:hover:bg-gray-700 transition"
+              className="px-4 py-2 border rounded hover:bg-gray-700 transition"
             >
               Cancel
             </button>

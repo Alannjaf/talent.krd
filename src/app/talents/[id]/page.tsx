@@ -62,7 +62,7 @@ export default async function TalentProfilePage({
     <div className="mx-auto max-w-5xl p-6 space-y-6">
       <header>
         <h1 className="text-2xl font-semibold">{profile.display_name}</h1>
-        <p className="text-gray-600 dark:text-gray-400">{profile.headline}</p>
+        <p className="text-gray-400">{profile.headline}</p>
         <div className="text-sm text-gray-500">{profile.location}</div>
         {profile.tags?.length ? (
           <div className="text-xs mt-1">Tags: {profile.tags.join(", ")}</div>
@@ -76,9 +76,7 @@ export default async function TalentProfilePage({
             {services.map((s) => (
               <li key={s.id} className="border rounded-md p-4">
                 <div className="font-medium">{s.title}</div>
-                <div className="text-sm text-gray-600 dark:text-gray-400">
-                  {s.description}
-                </div>
+                <div className="text-sm text-gray-400">{s.description}</div>
                 <div className="text-sm mt-2">
                   {s.price} {s.currency}{" "}
                   {s.duration_minutes ? `· ${s.duration_minutes} min` : ""}
@@ -104,9 +102,7 @@ export default async function TalentProfilePage({
                 />
                 <figcaption className="p-2 text-sm">
                   <div className="font-medium">{it.title || "Untitled"}</div>
-                  <div className="text-gray-600 dark:text-gray-400 text-xs">
-                    {it.description}
-                  </div>
+                  <div className="text-gray-400 text-xs">{it.description}</div>
                 </figcaption>
               </figure>
             ))}

@@ -60,7 +60,10 @@ export default function ProfilePage() {
           bio: form.bio || null,
           location: form.location || null,
           tags: form.tags
-            ? form.tags.split(",").map((t) => t.trim()).filter(Boolean)
+            ? form.tags
+                .split(",")
+                .map((t) => t.trim())
+                .filter(Boolean)
             : null,
         }),
       });
@@ -80,95 +83,95 @@ export default function ProfilePage() {
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-2xl font-bold">Dashboard</h1>
       </div>
-      
+
       <div className="grid md:grid-cols-3 gap-6 mb-8">
         <a
           href="/dashboard/profile"
-          className="p-6 border rounded-lg hover:shadow-lg transition-shadow bg-blue-50 dark:bg-blue-900/20 border-blue-200 dark:border-blue-800"
+          className="p-6 border rounded-lg hover:shadow-lg transition-shadow bg-blue-900/20 border-blue-800"
         >
           <h3 className="font-semibold text-lg mb-2">Profile</h3>
-          <p className="text-sm text-gray-600 dark:text-gray-400">
+          <p className="text-sm text-gray-400">
             Edit your basic profile information
           </p>
         </a>
-        
+
         <a
           href="/dashboard/portfolio"
           className="p-6 border rounded-lg hover:shadow-lg transition-shadow"
         >
           <h3 className="font-semibold text-lg mb-2">Portfolio</h3>
-          <p className="text-sm text-gray-600 dark:text-gray-400">
+          <p className="text-sm text-gray-400">
             Manage your work samples and projects
           </p>
         </a>
-        
+
         <a
           href="/dashboard/services"
           className="p-6 border rounded-lg hover:shadow-lg transition-shadow"
         >
           <h3 className="font-semibold text-lg mb-2">Services</h3>
-          <p className="text-sm text-gray-600 dark:text-gray-400">
+          <p className="text-sm text-gray-400">
             Create and manage your service offerings
           </p>
         </a>
       </div>
 
-      <div className="bg-white dark:bg-gray-800 rounded-lg border p-6">
+      <div className="bg-gray-800 rounded-lg border p-6">
         <h2 className="text-xl font-semibold mb-4">Edit Profile</h2>
-      {error && <div className="text-red-600 text-sm mb-3">{error}</div>}
-      <form onSubmit={onSubmit} className="space-y-4">
-        <div>
-          <label className="block text-sm mb-1">Display name</label>
-          <input
-            className="w-full rounded border px-3 py-2 bg-transparent"
-            value={form.displayName}
-            onChange={(e) => setForm({ ...form, displayName: e.target.value })}
-          />
-        </div>
-        <div>
-          <label className="block text-sm mb-1">Headline</label>
-          <input
-            className="w-full rounded border px-3 py-2 bg-transparent"
-            value={form.headline}
-            onChange={(e) => setForm({ ...form, headline: e.target.value })}
-          />
-        </div>
-        <div>
-          <label className="block text-sm mb-1">Bio</label>
-          <textarea
-            className="w-full rounded border px-3 py-2 bg-transparent"
-            value={form.bio}
-            rows={5}
-            onChange={(e) => setForm({ ...form, bio: e.target.value })}
-          />
-        </div>
-        <div>
-          <label className="block text-sm mb-1">Location</label>
-          <input
-            className="w-full rounded border px-3 py-2 bg-transparent"
-            value={form.location}
-            onChange={(e) => setForm({ ...form, location: e.target.value })}
-          />
-        </div>
-        <div>
-          <label className="block text-sm mb-1">Tags (comma separated)</label>
-          <input
-            className="w-full rounded border px-3 py-2 bg-transparent"
-            value={form.tags}
-            onChange={(e) => setForm({ ...form, tags: e.target.value })}
-          />
-        </div>
-        <button
-          type="submit"
-          disabled={saving}
-          className="rounded px-4 py-2 border text-sm hover:bg-black/5 dark:hover:bg-white/10"
-        >
-          {saving ? "Saving…" : "Save"}
-        </button>
-      </form>
+        {error && <div className="text-red-600 text-sm mb-3">{error}</div>}
+        <form onSubmit={onSubmit} className="space-y-4">
+          <div>
+            <label className="block text-sm mb-1">Display name</label>
+            <input
+              className="w-full rounded border px-3 py-2 bg-transparent"
+              value={form.displayName}
+              onChange={(e) =>
+                setForm({ ...form, displayName: e.target.value })
+              }
+            />
+          </div>
+          <div>
+            <label className="block text-sm mb-1">Headline</label>
+            <input
+              className="w-full rounded border px-3 py-2 bg-transparent"
+              value={form.headline}
+              onChange={(e) => setForm({ ...form, headline: e.target.value })}
+            />
+          </div>
+          <div>
+            <label className="block text-sm mb-1">Bio</label>
+            <textarea
+              className="w-full rounded border px-3 py-2 bg-transparent"
+              value={form.bio}
+              rows={5}
+              onChange={(e) => setForm({ ...form, bio: e.target.value })}
+            />
+          </div>
+          <div>
+            <label className="block text-sm mb-1">Location</label>
+            <input
+              className="w-full rounded border px-3 py-2 bg-transparent"
+              value={form.location}
+              onChange={(e) => setForm({ ...form, location: e.target.value })}
+            />
+          </div>
+          <div>
+            <label className="block text-sm mb-1">Tags (comma separated)</label>
+            <input
+              className="w-full rounded border px-3 py-2 bg-transparent"
+              value={form.tags}
+              onChange={(e) => setForm({ ...form, tags: e.target.value })}
+            />
+          </div>
+          <button
+            type="submit"
+            disabled={saving}
+            className="rounded px-4 py-2 border text-sm hover:bg-white/10"
+          >
+            {saving ? "Saving…" : "Save"}
+          </button>
+        </form>
       </div>
     </div>
   );
 }
-
-

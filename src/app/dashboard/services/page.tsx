@@ -40,18 +40,19 @@ export default function ServicesPage() {
 
   const handleDelete = async (id: string) => {
     if (!confirm("Are you sure you want to delete this service?")) return;
-    
+
     try {
       const res = await fetch(`/api/services/${id}`, { method: "DELETE" });
       const data = await res.json();
       if (!data.ok) throw new Error(data.error || "Failed to delete");
-      setServices(services.filter(service => service.id !== id));
+      setServices(services.filter((service) => service.id !== id));
     } catch (e: unknown) {
       setError(e instanceof Error ? e.message : String(e));
     }
   };
 
-  if (loading) return <div className="mx-auto max-w-4xl p-6">Loading services...</div>;
+  if (loading)
+    return <div className="mx-auto max-w-4xl p-6">Loading services...</div>;
 
   return (
     <div className="mx-auto max-w-4xl p-6">
@@ -107,20 +108,20 @@ export default function ServicesPage() {
               </div>
 
               {service.description && (
-                <p className="text-gray-600 dark:text-gray-400 mb-3">
-                  {service.description}
-                </p>
+                <p className="text-gray-400 mb-3">{service.description}</p>
               )}
 
               <div className="flex gap-4 text-sm">
                 {service.price && (
                   <div>
-                    <span className="font-medium">Price:</span> {service.price} {service.currency || "IQD"}
+                    <span className="font-medium">Price:</span> {service.price}{" "}
+                    {service.currency || "IQD"}
                   </div>
                 )}
                 {service.duration_minutes && (
                   <div>
-                    <span className="font-medium">Duration:</span> {service.duration_minutes} minutes
+                    <span className="font-medium">Duration:</span>{" "}
+                    {service.duration_minutes} minutes
                   </div>
                 )}
               </div>
@@ -174,19 +175,21 @@ function ServiceForm({
     try {
       const url = service ? `/api/services/${service.id}` : "/api/services";
       const method = service ? "PUT" : "POST";
-      
+
       const res = await fetch(url, {
         method,
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           ...form,
-          duration_minutes: form.duration_minutes ? parseInt(form.duration_minutes) : null,
+          duration_minutes: form.duration_minutes
+            ? parseInt(form.duration_minutes)
+            : null,
         }),
       });
-      
+
       const data = await res.json();
       if (!data.ok) throw new Error(data.error || "Failed to save");
-      
+
       onSuccess();
     } catch (e: unknown) {
       setError(e instanceof Error ? e.message : String(e));
@@ -197,7 +200,7 @@ function ServiceForm({
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 w-full max-w-md">
+      <div className="bg-gray-800 rounded-lg p-6 w-full max-w-md">
         <h2 className="text-lg font-bold mb-4">
           {service ? "Edit Service" : "Add Service"}
         </h2>
@@ -222,10 +225,14 @@ function ServiceForm({
           </div>
 
           <div>
-            <label className="block text-sm font-medium mb-1">Description</label>
+            <label className="block text-sm font-medium mb-1">
+              Description
+            </label>
             <textarea
               value={form.description}
-              onChange={(e) => setForm({ ...form, description: e.target.value })}
+              onChange={(e) =>
+                setForm({ ...form, description: e.target.value })
+              }
               className="w-full border rounded px-3 py-2 bg-transparent"
               rows={3}
               placeholder="Describe your service..."
@@ -259,11 +266,15 @@ function ServiceForm({
           </div>
 
           <div>
-            <label className="block text-sm font-medium mb-1">Duration (minutes)</label>
+            <label className="block text-sm font-medium mb-1">
+              Duration (minutes)
+            </label>
             <input
               type="number"
               value={form.duration_minutes}
-              onChange={(e) => setForm({ ...form, duration_minutes: e.target.value })}
+              onChange={(e) =>
+                setForm({ ...form, duration_minutes: e.target.value })
+              }
               className="w-full border rounded px-3 py-2 bg-transparent"
               placeholder="60"
             />
@@ -280,7 +291,7 @@ function ServiceForm({
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 border rounded hover:bg-gray-50 dark:hover:bg-gray-700 transition"
+              className="px-4 py-2 border rounded hover:bg-gray-700 transition"
             >
               Cancel
             </button>

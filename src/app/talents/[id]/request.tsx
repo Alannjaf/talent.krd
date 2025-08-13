@@ -35,7 +35,7 @@ export default function BookForm({ serviceId }: { serviceId: string }) {
       <button
         type="submit"
         disabled={loading}
-        className="text-sm rounded-md px-3 py-1.5 border hover:bg-black/5 dark:hover:bg-white/10"
+        className="text-sm rounded-md px-3 py-1.5 border hover:bg-white/10"
       >
         {loading ? "Sending..." : "Request booking"}
       </button>
