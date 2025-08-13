@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { ClerkProvider } from "@clerk/nextjs";
+import { ClerkProvider, SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
 import React from "react";
 import Link from "next/link";
 import { Geist, Geist_Mono } from "next/font/google";
@@ -45,8 +45,22 @@ export default function RootLayout({
                 Talent.krd
               </Link>
               <div className="flex items-center gap-4 text-sm">
-                <Link href="/sign-in">Sign in</Link>
-                <Link href="/sign-up">Sign up</Link>
+                {clerkEnabled ? (
+                  <>
+                    <SignedIn>
+                      <UserButton afterSignOutUrl="/" />
+                    </SignedIn>
+                    <SignedOut>
+                      <Link href="/sign-in">Sign in</Link>
+                      <Link href="/sign-up">Sign up</Link>
+                    </SignedOut>
+                  </>
+                ) : (
+                  <>
+                    <Link href="/sign-in">Sign in</Link>
+                    <Link href="/sign-up">Sign up</Link>
+                  </>
+                )}
               </div>
             </nav>
           </header>

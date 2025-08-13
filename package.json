@@ -7,11 +7,15 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "seed": "node --env-file=.env.local ./scripts/seed.mjs"
+    "seed": "node --env-file=.env.local ./scripts/seed.mjs",
+    "db:generate": "drizzle-kit generate --config=drizzle.config.ts",
+    "db:migrate": "drizzle-kit migrate --config=drizzle.config.ts",
+    "db:studio": "drizzle-kit studio --config=drizzle.config.ts"
   },
   "dependencies": {
     "@clerk/nextjs": "^6.10.0",
     "@neondatabase/serverless": "^1.0.1",
+    "drizzle-orm": "^0.33.0",
     "next": "15.4.6",
     "react": "19.1.0",
     "react-dom": "19.1.0"
@@ -27,7 +31,9 @@
     "lightningcss": "^1.30.1",
     "lightningcss-win32-x64-msvc": "^1.30.1",
     "tailwindcss": "^4",
-    "typescript": "^5"
+    "typescript": "^5",
+    "drizzle-kit": "^0.24.0",
+    "dotenv": "^16.4.5"
   },
   "optionalDependencies": {
     "lightningcss-win32-x64-msvc": "^1.30.1"
