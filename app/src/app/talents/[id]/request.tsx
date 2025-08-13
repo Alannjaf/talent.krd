@@ -22,8 +22,9 @@ export default function BookForm({ serviceId }: { serviceId: string }) {
       } else {
         setMessage(`Failed: ${data.error || "Unknown error"}`);
       }
-    } catch (err: any) {
-      setMessage(`Error: ${String(err?.message || err)}`);
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : String(err);
+      setMessage(`Error: ${message}`);
     } finally {
       setLoading(false);
     }

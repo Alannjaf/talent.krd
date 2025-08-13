@@ -1,12 +1,13 @@
 import { clerkMiddleware } from "@clerk/nextjs/server";
 
-export default clerkMiddleware();
+// Enable Clerk middleware only when valid publishable key is provided
+const publishableKey = process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY;
+const hasValidKey = Boolean(
+  publishableKey && publishableKey !== "pk_test_dummy"
+);
+
+export default hasValidKey ? clerkMiddleware() : function middleware() {};
 
 export const config = {
-  matcher: [
-    // Protect specific routes later, e.g. '/dashboard(.*)'
-    // Currently pass-through for all so app runs without keys
-    "/((?!.+\\.[\\w]+$|_next).*)",
-    "/(api|trpc)(.*)",
-  ],
+  matcher: ["/((?!.+\\.[\\w]+$|_next).*)", "/(api|trpc)(.*)"],
 };
