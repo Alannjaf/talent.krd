@@ -1,6 +1,0 @@
-{
-  "devDependencies": {
-    "@tailwindcss/oxide": "^4.1.11",
-    "@tailwindcss/oxide-win32-x64-msvc": "^4.1.11"
-  }
-}
