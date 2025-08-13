@@ -52,7 +52,7 @@ export default async function Home() {
               <span className="gradient-text">Creative Partner</span>
             </h1>
             <p className="text-xl md:text-2xl text-gray-300 mb-12 max-w-3xl mx-auto leading-relaxed">
-              Connect with Kurdistan's most talented creators, developers, and
+              Connect with Kurdistan&apos;s most talented creators, developers, and
               professionals. Your next breakthrough project starts here.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
