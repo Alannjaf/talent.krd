@@ -1,7 +1,10 @@
 import { NextResponse } from "next/server";
 import { stackServerApp } from "../../../stack";
 import { sql } from "@/lib/db";
-import { getOrCreateUserByStackId, getOrCreateTalentProfile } from "@/lib/users";
+import {
+  getOrCreateUserByStackId,
+  getOrCreateTalentProfile,
+} from "@/lib/users";
 
 export async function GET() {
   try {
@@ -60,7 +63,9 @@ export async function POST(req: Request) {
 
     const created = (await sql`
       INSERT INTO portfolio_items (profile_id, media_url, title, description, visibility)
-      VALUES (${profileId}, ${media_url}, ${title || null}, ${description || null}, ${visibility})
+      VALUES (${profileId}, ${media_url}, ${title || null}, ${
+      description || null
+    }, ${visibility})
       RETURNING id
     `) as Array<{ id: string }>;
 

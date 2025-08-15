@@ -1,5 +1,4 @@
 import { neon } from "@neondatabase/serverless";
-import { drizzle } from "drizzle-orm/neon-http";
 
 const connectionString = process.env.DATABASE_URL;
 
@@ -13,5 +12,3 @@ export const sql = connectionString
   : ((async () => {
       throw new Error("DATABASE_URL is not configured");
     }) as unknown as ReturnType<typeof neon>);
-
-export const db = connectionString ? drizzle(neon(connectionString)) : undefined as unknown as ReturnType<typeof drizzle>;

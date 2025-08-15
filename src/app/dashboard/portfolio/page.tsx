@@ -115,8 +115,16 @@ export default function PortfolioPage() {
           {error && (
             <div className="bg-red-900/20 border border-red-700/50 text-red-300 p-4 rounded-lg mb-8 animate-fadeInUp">
               <div className="flex items-center">
-                <svg className="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
+                <svg
+                  className="w-5 h-5 mr-2"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
+                    clipRule="evenodd"
+                  />
                 </svg>
                 {error}
               </div>
@@ -127,9 +135,12 @@ export default function PortfolioPage() {
             <div className="text-center py-20 animate-fadeInUp">
               <div className="glass-card p-12 max-w-2xl mx-auto">
                 <div className="text-6xl mb-6">🎨</div>
-                <h3 className="text-3xl font-bold mb-4">Start Your Portfolio</h3>
+                <h3 className="text-3xl font-bold mb-4">
+                  Start Your Portfolio
+                </h3>
                 <p className="text-gray-400 mb-8 text-lg">
-                  Showcase your best work and impress potential clients with your portfolio.
+                  Showcase your best work and impress potential clients with
+                  your portfolio.
                 </p>
                 <button
                   onClick={() => setShowForm(true)}
@@ -147,7 +158,8 @@ export default function PortfolioPage() {
                   Featured <span className="gradient-text">Work</span>
                 </h2>
                 <p className="text-gray-400">
-                  {items.length} portfolio item{items.length !== 1 ? "s" : ""} showcasing your expertise
+                  {items.length} portfolio item{items.length !== 1 ? "s" : ""}{" "}
+                  showcasing your expertise
                 </p>
               </div>
 
@@ -177,7 +189,7 @@ export default function PortfolioPage() {
                             </div>
                           </div>
                         )}
-                        
+
                         {/* Visibility Badge */}
                         <div className="absolute top-4 right-4">
                           <span
@@ -300,25 +312,46 @@ function PortfolioForm({
           onClick={onClose}
           className="absolute top-4 right-4 w-8 h-8 rounded-full bg-gray-700/50 hover:bg-gray-600/50 flex items-center justify-center transition-colors"
         >
-          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+          <svg
+            className="w-4 h-4"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M6 18L18 6M6 6l12 12"
+            />
           </svg>
         </button>
 
         <div className="mb-6">
           <h2 className="text-2xl font-bold mb-2">
-            {item ? "Edit" : "Add"} <span className="gradient-text">Portfolio Item</span>
+            {item ? "Edit" : "Add"}{" "}
+            <span className="gradient-text">Portfolio Item</span>
           </h2>
           <p className="text-gray-400">
-            {item ? "Update your portfolio item details" : "Add a new piece to showcase your work"}
+            {item
+              ? "Update your portfolio item details"
+              : "Add a new piece to showcase your work"}
           </p>
         </div>
 
         {error && (
           <div className="bg-red-900/20 border border-red-700/50 text-red-300 p-4 rounded-lg mb-6">
             <div className="flex items-center">
-              <svg className="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
+              <svg
+                className="w-5 h-5 mr-2"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
+                  clipRule="evenodd"
+                />
               </svg>
               {error}
             </div>
@@ -363,11 +396,15 @@ function PortfolioForm({
               </label>
               <select
                 value={form.visibility}
-                onChange={(e) => setForm({ ...form, visibility: e.target.value })}
+                onChange={(e) =>
+                  setForm({ ...form, visibility: e.target.value })
+                }
                 className="w-full rounded-lg border border-gray-600 px-4 py-3 bg-gray-800/50 backdrop-blur-sm text-white focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
               >
                 <option value="public">🌍 Public - Visible to everyone</option>
-                <option value="private">🔒 Private - Only visible to you</option>
+                <option value="private">
+                  🔒 Private - Only visible to you
+                </option>
               </select>
             </div>
           </div>

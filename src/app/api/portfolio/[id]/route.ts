@@ -1,7 +1,10 @@
 import { NextResponse } from "next/server";
 import { stackServerApp } from "../../../../stack";
 import { sql } from "@/lib/db";
-import { getOrCreateUserByStackId, getOrCreateTalentProfile } from "@/lib/users";
+import {
+  getOrCreateUserByStackId,
+  getOrCreateTalentProfile,
+} from "@/lib/users";
 
 export async function PUT(
   req: Request,
