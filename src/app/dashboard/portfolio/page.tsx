@@ -2,6 +2,11 @@
 
 import { useEffect, useState } from "react";
 import { useUser } from "@stackframe/stack";
+import { MediaManager, type MediaFile } from "../../components/MediaManager";
+import {
+  LocalMediaManager,
+  type LocalMediaFile,
+} from "../../components/LocalMediaManager";
 
 type PortfolioItem = {
   id: string;
@@ -10,6 +15,7 @@ type PortfolioItem = {
   description: string | null;
   visibility: string;
   created_at: string;
+  media_files: MediaFile[];
 };
 
 export default function PortfolioPage() {
@@ -170,64 +176,87 @@ export default function PortfolioPage() {
                     className="group glass-card overflow-hidden hover-lift animate-fadeInUp"
                     style={{ animationDelay: `${index * 0.1}s` }}
                   >
-                    {item.media_url && typeof item.media_url === "string" ? (
-                      <div className="aspect-video bg-gray-800/50 relative overflow-hidden">
-                        {item.media_url.match(/\.(jpg|jpeg|png|gif|webp)$/i) ? (
-                          // eslint-disable-next-line @next/next/no-img-element
-                          <img
-                            src={item.media_url}
-                            alt={item.title || "Portfolio item"}
-                            className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
-                          />
+                    <div className="relative">
+                      {/* Media Preview (Read-only) */}
+                      <div className="bg-gray-800/50 aspect-video">
+                        {item.media_files && item.media_files.length > 0 ? (
+                          <div className="relative w-full h-full">
+                            {/* Show first media file as preview */}
+                            {(() => {
+                              const firstMedia = item.media_files[0];
+                              const mediaUrl = firstMedia.is_link
+                                ? firstMedia.link_url || ""
+                                : firstMedia.file_url;
+                              const isImage =
+                                firstMedia.file_type === "image" ||
+                                mediaUrl.match(/\.(jpg|jpeg|png|gif|webp)$/i);
+                              const isVideo =
+                                firstMedia.file_type === "video" ||
+                                mediaUrl.match(
+                                  /\.(mp4|avi|mov|wmv|flv|webm)$/i
+                                );
+
+                              if (isImage) {
+                                return (
+                                  // eslint-disable-next-line @next/next/no-img-element
+                                  <img
+                                    src={mediaUrl}
+                                    alt={firstMedia.file_name}
+                                    className="w-full h-full object-cover"
+                                  />
+                                );
+                              } else if (isVideo) {
+                                return (
+                                  <video
+                                    src={mediaUrl}
+                                    className="w-full h-full object-cover"
+                                    preload="metadata"
+                                  />
+                                );
+                              } else {
+                                return (
+                                  <div className="w-full h-full flex items-center justify-center bg-gray-700">
+                                    <div className="text-center">
+                                      <div className="text-3xl mb-2">📄</div>
+                                      <span className="text-sm text-gray-400">
+                                        {firstMedia.file_name}
+                                      </span>
+                                    </div>
+                                  </div>
+                                );
+                              }
+                            })()}
+
+                            {/* Media count indicator */}
+                            {item.media_files.length > 1 && (
+                              <div className="absolute bottom-2 right-2 bg-black/70 text-white text-xs px-2 py-1 rounded-full">
+                                +{item.media_files.length - 1} more
+                              </div>
+                            )}
+                          </div>
                         ) : (
-                          <div className="w-full h-full flex items-center justify-center">
-                            <div className="text-center">
-                              <div className="text-4xl mb-2">📄</div>
-                              <span className="text-gray-400 text-sm">
-                                {item.media_url.split("/").pop()}
-                              </span>
+                          <div className="w-full h-full flex items-center justify-center bg-gray-700">
+                            <div className="text-center text-gray-400">
+                              <div className="text-3xl mb-2">🖼️</div>
+                              <span className="text-sm">No media</span>
                             </div>
                           </div>
                         )}
-
-                        {/* Visibility Badge */}
-                        <div className="absolute top-4 right-4">
-                          <span
-                            className={`px-3 py-1 rounded-full text-xs font-medium backdrop-blur-sm ${
-                              item.visibility === "public"
-                                ? "bg-green-900/30 text-green-300 border border-green-700/50"
-                                : "bg-yellow-900/30 text-yellow-300 border border-yellow-700/50"
-                            }`}
-                          >
-                            {item.visibility}
-                          </span>
-                        </div>
                       </div>
-                    ) : (
-                      <div className="aspect-video bg-gray-800/50 relative overflow-hidden">
-                        <div className="w-full h-full flex items-center justify-center">
-                          <div className="text-center">
-                            <div className="text-4xl mb-2">🖼️</div>
-                            <span className="text-gray-400 text-sm">
-                              No media
-                            </span>
-                          </div>
-                        </div>
 
-                        {/* Visibility Badge */}
-                        <div className="absolute top-4 right-4">
-                          <span
-                            className={`px-3 py-1 rounded-full text-xs font-medium backdrop-blur-sm ${
-                              item.visibility === "public"
-                                ? "bg-green-900/30 text-green-300 border border-green-700/50"
-                                : "bg-yellow-900/30 text-yellow-300 border border-yellow-700/50"
-                            }`}
-                          >
-                            {item.visibility}
-                          </span>
-                        </div>
+                      {/* Visibility Badge */}
+                      <div className="absolute top-4 right-4 z-10">
+                        <span
+                          className={`px-3 py-1 rounded-full text-xs font-medium backdrop-blur-sm ${
+                            item.visibility === "public"
+                              ? "bg-green-900/30 text-green-300 border border-green-700/50"
+                              : "bg-yellow-900/30 text-yellow-300 border border-yellow-700/50"
+                          }`}
+                        >
+                          {item.visibility}
+                        </span>
                       </div>
-                    )}
+                    </div>
 
                     <div className="p-6">
                       <h3 className="font-bold text-xl mb-2 group-hover:text-purple-400 transition-colors">
@@ -296,11 +325,13 @@ function PortfolioForm({
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [form, setForm] = useState({
-    media_url: item?.media_url || "",
     title: item?.title || "",
     description: item?.description || "",
     visibility: item?.visibility || "public",
   });
+
+  // Local media files for new portfolio items
+  const [localMediaFiles, setLocalMediaFiles] = useState<LocalMediaFile[]>([]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -311,14 +342,24 @@ function PortfolioForm({
       const url = item ? `/api/portfolio/${item.id}` : "/api/portfolio";
       const method = item ? "PUT" : "POST";
 
+      // For new items, include media files in the request
+      const requestBody = item
+        ? form
+        : { ...form, mediaFiles: localMediaFiles };
+
       const res = await fetch(url, {
         method,
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form),
+        body: JSON.stringify(requestBody),
       });
 
       const data = await res.json();
       if (!data.ok) throw new Error(data.error || "Failed to save");
+
+      // Reset local media files after successful creation
+      if (!item) {
+        setLocalMediaFiles([]);
+      }
 
       onSuccess();
     } catch (e: unknown) {
@@ -333,7 +374,13 @@ function PortfolioForm({
       <div className="glass-card p-8 w-full max-w-2xl relative">
         {/* Close button */}
         <button
-          onClick={onClose}
+          onClick={() => {
+            // Reset local media files when closing form for new items
+            if (!item) {
+              setLocalMediaFiles([]);
+            }
+            onClose();
+          }}
           className="absolute top-4 right-4 w-8 h-8 rounded-full bg-gray-700/50 hover:bg-gray-600/50 flex items-center justify-center transition-colors"
         >
           <svg
@@ -358,8 +405,8 @@ function PortfolioForm({
           </h2>
           <p className="text-gray-400">
             {item
-              ? "Update your portfolio item details"
-              : "Add a new piece to showcase your work"}
+              ? "Update your portfolio item details and manage media files"
+              : "Create a new portfolio item and add media files to showcase your work"}
           </p>
         </div>
 
@@ -383,23 +430,6 @@ function PortfolioForm({
         )}
 
         <form onSubmit={handleSubmit} className="space-y-6">
-          <div>
-            <label className="block text-sm font-medium mb-2 text-gray-300">
-              Media URL *
-            </label>
-            <input
-              type="url"
-              required
-              value={form.media_url}
-              onChange={(e) => setForm({ ...form, media_url: e.target.value })}
-              className="w-full rounded-lg border border-gray-600 px-4 py-3 bg-gray-800/50 backdrop-blur-sm text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
-              placeholder="https://example.com/image.jpg"
-            />
-            <p className="text-xs text-gray-500 mt-2">
-              URL to your image, video, or document file
-            </p>
-          </div>
-
           <div className="grid md:grid-cols-2 gap-6">
             <div>
               <label className="block text-sm font-medium mb-2 text-gray-300">
@@ -448,10 +478,39 @@ function PortfolioForm({
             />
           </div>
 
+          {/* Media Manager */}
+          <div>
+            <label className="block text-sm font-medium mb-3 text-gray-300">
+              Media Files
+            </label>
+            <div className="border border-gray-600 rounded-lg p-4 bg-gray-800/30">
+              {item ? (
+                /* Existing item - use MediaManager */
+                <MediaManager
+                  portfolioItemId={item.id}
+                  mediaFiles={item.media_files || []}
+                  onMediaChange={onSuccess}
+                />
+              ) : (
+                /* New item - use LocalMediaManager */
+                <LocalMediaManager
+                  mediaFiles={localMediaFiles}
+                  onMediaChange={setLocalMediaFiles}
+                />
+              )}
+            </div>
+          </div>
+
           <div className="flex gap-4 pt-6">
             <button
               type="button"
-              onClick={onClose}
+              onClick={() => {
+                // Reset local media files when cancelling for new items
+                if (!item) {
+                  setLocalMediaFiles([]);
+                }
+                onClose();
+              }}
               className="flex-1 px-6 py-3 border border-gray-600 text-gray-300 rounded-lg hover:bg-gray-700/50 transition-colors font-medium"
             >
               Cancel
