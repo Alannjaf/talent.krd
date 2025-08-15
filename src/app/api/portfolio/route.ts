@@ -25,7 +25,7 @@ export async function GET() {
       ORDER BY created_at DESC
     `) as Array<{
       id: string;
-      media_url: string;
+      media_url: string | null;
       title: string | null;
       description: string | null;
       visibility: string;

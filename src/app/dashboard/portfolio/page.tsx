@@ -5,7 +5,7 @@ import { useUser } from "@stackframe/stack";
 
 type PortfolioItem = {
   id: string;
-  media_url: string;
+  media_url: string | null;
   title: string | null;
   description: string | null;
   visibility: string;
@@ -170,7 +170,7 @@ export default function PortfolioPage() {
                     className="group glass-card overflow-hidden hover-lift animate-fadeInUp"
                     style={{ animationDelay: `${index * 0.1}s` }}
                   >
-                    {item.media_url && (
+                    {item.media_url && typeof item.media_url === "string" ? (
                       <div className="aspect-video bg-gray-800/50 relative overflow-hidden">
                         {item.media_url.match(/\.(jpg|jpeg|png|gif|webp)$/i) ? (
                           // eslint-disable-next-line @next/next/no-img-element
@@ -189,6 +189,30 @@ export default function PortfolioPage() {
                             </div>
                           </div>
                         )}
+
+                        {/* Visibility Badge */}
+                        <div className="absolute top-4 right-4">
+                          <span
+                            className={`px-3 py-1 rounded-full text-xs font-medium backdrop-blur-sm ${
+                              item.visibility === "public"
+                                ? "bg-green-900/30 text-green-300 border border-green-700/50"
+                                : "bg-yellow-900/30 text-yellow-300 border border-yellow-700/50"
+                            }`}
+                          >
+                            {item.visibility}
+                          </span>
+                        </div>
+                      </div>
+                    ) : (
+                      <div className="aspect-video bg-gray-800/50 relative overflow-hidden">
+                        <div className="w-full h-full flex items-center justify-center">
+                          <div className="text-center">
+                            <div className="text-4xl mb-2">🖼️</div>
+                            <span className="text-gray-400 text-sm">
+                              No media
+                            </span>
+                          </div>
+                        </div>
 
                         {/* Visibility Badge */}
                         <div className="absolute top-4 right-4">
